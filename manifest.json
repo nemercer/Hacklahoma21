@@ -1,0 +1,17 @@
+{
+"manifest_version": 2,
+    "name": "Replacer",
+    "description": "Replacing fun words",
+    "version": "1.0",
+    "content_scripts": [
+        {
+            "matches": [
+                "*://stinsan.com/*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_end"
+        }
+    ]
+}
