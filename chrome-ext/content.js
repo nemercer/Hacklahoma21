@@ -1,18 +1,25 @@
-var elements = document.getElementsByTagName('*');
+  (function() {
+    function replaceTwitterWord() {
+      var tweetContent = document.querySelectorAll("div[lang]");
+  
+        // if 0 (hate speech) replace with redacted
+        // if 1 (offensive language) replace offensive word with non offensive word
 
-for (var i = 0; i < elements.length; i++) {
-    var element = elements[i];
-
-    for (var j = 0; j < element.childNodes.length; j++) {
-        var node = element.childNodes[j];
-
-        if (node.nodeType === 3) {
-            var text = node.nodeValue;
-            var replacedText = text.replace(/justin/gi, 'justin jeremy viloria santos');
-
-            if (replacedText !== text) {
-                element.replaceChild(document.createTextNode(replacedText), node);
-            }
+      [].slice.call(tweetContent).forEach(function(el){
+        var newContent = el.innerHTML.replace(/.*/s,"justin");
+        if (newContent != el.innerHTML) {
+          el.innerHTML = newContent;
         }
+      });
     }
-}
+  
+    // Replace words every 5000 ticks
+    function tick() {
+        // If it determines hate speech of offensive language (0/1)
+
+        replaceTwitterWord();
+        window.setTimeout(tick, 5000);
+    }
+  
+    tick();
+  })();
