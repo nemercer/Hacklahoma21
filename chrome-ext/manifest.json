@@ -1,12 +1,12 @@
 {
 "manifest_version": 2,
-    "name": "Replacer",
-    "description": "Replacing fun words",
+    "name": "Anti-Hate Speech Plugin",
+    "description": "A plugin that censors offensive language and removes hateful tweets.",
     "version": "1.0",
     "content_scripts": [
         {
             "matches": [
-                "*://*/*"
+                "*://twitter.com/*"
             ],
             "js": [
                 "content.js"
