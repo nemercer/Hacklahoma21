@@ -1,8 +1,5 @@
-import pandas as pd
 import spacy
 import string
-import dill
-import os.path
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.base import TransformerMixin
@@ -18,9 +15,6 @@ from nlp.preprocess_data import load_df
 class TweetClassifier:
     def __init__(self):
         self.df = load_df()
-        # self.df['num_words_text'] = self.df['tweet'].apply(lambda x: len(str(x).split()))
-        # mask = self.df['num_words_text'] > 2
-        # self.df = self.df[mask]
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.df['tweet'], self.df['class'], test_size=0.2, random_state=42)
 
         self.nlp = spacy.load('en_core_web_sm')
@@ -50,6 +44,7 @@ class TweetClassifier:
                          ('vectorizer', self.bow_vector),
                          ('classifier', lr_classifier)])
 
+        print('Fitting data... Please wait a few minutes.')
         self.pipe.fit(self.X_train, self.y_train)
 
     def predict(self):
@@ -59,7 +54,9 @@ class TweetClassifier:
     def predict_new(self, new_tweet):
         prediction = self.pipe.predict([new_tweet])
 
-        print(new_tweet, prediction)
+        print('Processing tweet: \"{}\"\n\t Classification: {}'.format(new_tweet, prediction))
+
+        return prediction
 
 
 class Cleaner(TransformerMixin):
